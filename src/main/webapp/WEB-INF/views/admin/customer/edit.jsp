@@ -168,7 +168,7 @@
                     <label for="transactionDetail" class="col-xs-12 col-sm-3 control-label no-padding-right">Chi tiết giao dịch</label>
                     <div class="col-xs-12 col-sm-9">
                         <span class="block input-icon input-icon-right">
-                            <input type="text" id="transactionDetail" class="width-100">
+                            <input type="text" id="transactionDetail" value="" class="width-100">
                         </span>
                     </div>
                 </div>
@@ -189,6 +189,8 @@
             $('#transactionTypeModal').modal();
             $('#customerId').val(customerId);
             $('#code').val(code);
+            $('#id').val(null);
+            $('#transactionDetail').val(null);
         }
 
         function showFormUpdate(id,code){
@@ -206,9 +208,7 @@
                 contentType: "application/json",
                 dataType: "JSON",
                 success: function(respond){
-                    let row = '<input type="text" id="transactionDetail" name="transactionDetail " ' + 'value="' + respond.data.note + '" class="width-100">';
-                    $('#formSerial span').html(row);
-                    $('#transactionTypeModal').modal();
+                    $('#transactionDetail').val(respond.data.note);
                 },
                 error: function(respond){
                     window.alert("Fail");
