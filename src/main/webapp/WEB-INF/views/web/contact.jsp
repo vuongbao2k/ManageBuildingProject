@@ -116,18 +116,18 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <h2 class="title-lienhe"><strong>Liên hệ với chúng tôi</strong></h2>
-                    <form>
+                    <form id="contactForm" method="post">
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Họ và tên">
+                                <input type="text" name="fullName" class="form-control" placeholder="Họ và tên">
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Email">
+                                <input type="text" name="email" class="form-control" placeholder="Email">
                             </div>
                         </div>
-                        <input type="text" class="form-control mt-3" placeholder="Số điện thoại">
-                        <input type="text" class="form-control mt-3" placeholder="Nội dung">
-                        <button class="btn btn-primary px-4 mt-3">
+                        <input type="text" name="phone" class="form-control mt-3" placeholder="Số điện thoại">
+                        <input type="text" name="demand" class="form-control mt-3" placeholder="Nội dung">
+                        <button class="btn btn-primary px-4 mt-3" id="btnSendContact">
                             Gửi liên hệ
                         </button>
                     </form>
@@ -235,5 +235,33 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js" integrity="sha512-chZc2Mx8B1GzGSNMfJRH63jW7uYZXzX0a/UlWRrTvl4kxxYqUHNMtyTTA5IDQ7gTl4ATLoXlZthsialW3muS0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+    $('#btnSendContact').click(function (e){
+        e.preventDefault();
+        var data = {};
+        data['status'] = 'CHUA_XU_LY';
+        var formContact = $('#contactForm').serializeArray();
+        $.each(formContact, function (i,it){
+            data[it.name] = it.value;
+        });
+        sendContact(data);
+    });
+
+    function sendContact(data){
+        $.ajax({
+            type: "POST",
+            url: "/api/customer",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(respond){
+                alert("Send your contact successfully!");
+            },
+            error: function(respond){
+                alert("Error");
+            }
+        });
+    }
+</script>
 </body>
 </html>

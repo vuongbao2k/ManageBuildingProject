@@ -34,6 +34,9 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(mappedBy = "userEntities", fetch = FetchType.LAZY)
     List<BuildingEntity> buildingEntityList = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "userEntities", fetch = FetchType.LAZY)
+    List<BuildingEntity> customerEntityList = new ArrayList<>();
+
 //    @OneToMany(mappedBy="userEntity", fetch = FetchType.LAZY)
 //    private List<AssignBuildingEntity> assignBuildingEntities = new ArrayList<>();
 //
@@ -107,5 +110,13 @@ public class UserEntity extends BaseEntity {
 
     public void setBuildingEntityList(List<BuildingEntity> buildingEntityList) {
         this.buildingEntityList = buildingEntityList;
+    }
+
+    public List<BuildingEntity> getCustomerEntityList() {
+        return customerEntityList;
+    }
+
+    public void setCustomerEntityList(List<BuildingEntity> customerEntityList) {
+        this.customerEntityList = customerEntityList;
     }
 }
