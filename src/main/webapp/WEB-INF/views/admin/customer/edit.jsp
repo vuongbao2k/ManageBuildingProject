@@ -317,7 +317,7 @@
             });
         }
         $('#btnCancel').click(function() {
-            window.location.href = "/admin/building-list";
+            window.location.href = "/admin/customer-list";
           //
         })
     </script>

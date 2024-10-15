@@ -2,6 +2,8 @@
 <%@include file="/common/taglib.jsp" %>
 <c:url var="customerListURL" value="/admin/customer-list"/>
 <c:url var="customerAPI" value="/api/customer"/>
+<c:url var="formUrl" value="/admin/customer-list"/>
+<c:url var="formAjax" value="/api/customer"/>
 <html>
 <head>
     <title>Danh sách toà nhà</title>
@@ -110,62 +112,109 @@
                 <!-- Bảng danh sách -->
                 <div class="row">
                     <div class="col-xs-12">
-                        <table id="tableList" style="margin: 3em 0 0;" class="table table-striped table-bordered table-hover">
-                            <thead>
-                            <tr>
-                                <th class="center">
-                                    <label class="pos-rel">
-                                        <input type="checkbox" class="ace" name="checkList" value="">
-                                        <span class="lbl"></span>
-                                    </label>
-                                </th>
-                                <th>Tên khách hàng</th>
-                                <th>Di động</th>
-                                <th>Email</th>
-                                <th>Nhu cầu</th>
-                                <th>Người thêm</th>
-                                <th>Ngày thêm</th>
-                                <th>Tình trạng</th>
-                                <th>Thao tác</th>
-                            </tr>
-                            </thead>
+                        <div class="table-responsive">
+                                    <display:table name="customerSearch.listResult" cellspacing="0" cellpadding="0"
+                                                   requestURI="${formUrl}" partialList="true" sort="external"
+                                                   size="${customerSearch.totalItems}" defaultsort="2" defaultorder="ascending"
+                                                   id="tableList" pagesize="${customerSearch.maxPageItems}"
+                                                   export="false"
+                                                   class="table table-fcv-ace table-striped table-bordered table-hover dataTable no-footer"
+                                                   style="margin: 3em 0 1.5em;">
+                                        <display:column title="<fieldset class='form-group'>
+												        <input type='checkbox' id='checkAll' class='check-box-element'>
+												        </fieldset>" class="center select-cell"
+                                                        headerClass="center select-cell">
+                                            <fieldset>
+                                                <input type="checkbox" name="checkList" value="${tableList.id}"
+                                                       id="checkbox_${tableList.id}" class="check-box-element"/>
+                                            </fieldset>
+                                        </display:column>
+                                        <display:column headerClass="text-left" property="fullName" title="Tên khách hàng"/>
+                                        <display:column headerClass="text-left" property="phone" title="Di động"/>
+                                        <display:column headerClass="text-left" property="email" title="Email"/>
+                                        <display:column headerClass="text-left" property="demand" title="Nhu cầu"/>
+                                        <display:column headerClass="text-left" property="createdBy" title="Người thêm"/>
+                                        <display:column headerClass="text-left" property="createdDate" title="Ngày thêm"/>
+                                        <display:column headerClass="text-left" property="status" title="Tình trạng"/>
 
-                            <tbody>
-                            <c:forEach var="item" items="${customers}">
-                                <tr>
-                                <td class="center">
-                                    <label class="pos-rel">
-                                        <input type="checkbox" class="ace" name="checkList" value="${item.id}">
-                                        <span class="lbl"></span>
-                                    </label>
-                                </td>
+                                        <display:column headerClass="col-actions" title="Thao tác">
+<%--                                            <c:if test="${tableList.roleCode != 'MANAGER'}">--%>
+                                                <div class="hidden-sm hidden-xs btn-group">
+                                                    <button class="btn btn-xs btn-success" title="Giao khách hàng" onclick="assignmentCustomer(${tableList.id})">
+                                                        <i class="ace-icon glyphicon glyphicon-list"></i>
+                                                    </button>
 
-                                <td>${item.fullName}</td>
-                                <td>${item.phone}</td>
-                                <td>${item.email}</td>
-                                <td>${item.demand}</td>
-                                <td>${item.createdBy}</td>
-                                <td>${item.createdDate}</td>
-                                <td>${item.status}</td>
-                                <td>
-                                    <div class="hidden-sm hidden-xs btn-group">
-                                        <button class="btn btn-xs btn-success" title="Giao khách hàng" onclick="assignmentCustomer(${item.id})">
-                                            <i class="ace-icon glyphicon glyphicon-list"></i>
-                                        </button>
+                                                    <a class="btn btn-xs btn-info" title="Sửa khách hàng" href="/admin/customer-edit-${tableList.id}">
+                                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                    </a>
 
-                                        <a class="btn btn-xs btn-info" title="Sửa khách hàng" href="/admin/customer-edit-${item.id}">
-                                            <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                        </a>
+                                                    <button class="btn btn-xs btn-danger" title="Xoá khách hàng" onclick="deleteCustomer(${tableList.id})">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </button>
+                                                </div>
+<%--                                            </c:if>--%>
+<%--                                            <c:if test="${tableList.roleCode == 'MANAGER'}">--%>
+<%--                                                <p>Không đươc thao tác</p>--%>
+<%--                                            </c:if>--%>
+                                        </display:column>
+                                    </display:table>
+                                </div>
+<%--                        <table id="tableList" style="margin: 3em 0 0;" class="table table-striped table-bordered table-hover">--%>
+<%--                            <thead>--%>
+<%--                            <tr>--%>
+<%--                                <th class="center">--%>
+<%--                                    <label class="pos-rel">--%>
+<%--                                        <input type="checkbox" class="ace" name="checkList" value="">--%>
+<%--                                        <span class="lbl"></span>--%>
+<%--                                    </label>--%>
+<%--                                </th>--%>
+<%--                                <th>Tên khách hàng</th>--%>
+<%--                                <th>Di động</th>--%>
+<%--                                <th>Email</th>--%>
+<%--                                <th>Nhu cầu</th>--%>
+<%--                                <th>Người thêm</th>--%>
+<%--                                <th>Ngày thêm</th>--%>
+<%--                                <th>Tình trạng</th>--%>
+<%--                                <th>Thao tác</th>--%>
+<%--                            </tr>--%>
+<%--                            </thead>--%>
 
-                                        <button class="btn btn-xs btn-danger" title="Xoá khách hàng" onclick="deleteCustomer(${item.id})">
-                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+<%--                            <tbody>--%>
+<%--                            <c:forEach var="item" items="${customers}">--%>
+<%--                                <tr>--%>
+<%--                                <td class="center">--%>
+<%--                                    <label class="pos-rel">--%>
+<%--                                        <input type="checkbox" class="ace" name="checkList" value="${item.id}">--%>
+<%--                                        <span class="lbl"></span>--%>
+<%--                                    </label>--%>
+<%--                                </td>--%>
+
+<%--                                <td>${item.fullName}</td>--%>
+<%--                                <td>${item.phone}</td>--%>
+<%--                                <td>${item.email}</td>--%>
+<%--                                <td>${item.demand}</td>--%>
+<%--                                <td>${item.createdBy}</td>--%>
+<%--                                <td>${item.createdDate}</td>--%>
+<%--                                <td>${item.status}</td>--%>
+<%--                                <td>--%>
+<%--                                    <div class="hidden-sm hidden-xs btn-group">--%>
+<%--                                        <button class="btn btn-xs btn-success" title="Giao khách hàng" onclick="assignmentCustomer(${item.id})">--%>
+<%--                                            <i class="ace-icon glyphicon glyphicon-list"></i>--%>
+<%--                                        </button>--%>
+
+<%--                                        <a class="btn btn-xs btn-info" title="Sửa khách hàng" href="/admin/customer-edit-${item.id}">--%>
+<%--                                            <i class="ace-icon fa fa-pencil bigger-120"></i>--%>
+<%--                                        </a>--%>
+
+<%--                                        <button class="btn btn-xs btn-danger" title="Xoá khách hàng" onclick="deleteCustomer(${item.id})">--%>
+<%--                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>--%>
+<%--                                        </button>--%>
+<%--                                    </div>--%>
+<%--                                </td>--%>
+<%--                            </tr>--%>
+<%--                            </c:forEach>--%>
+<%--                            </tbody>--%>
+<%--                        </table>--%>
                     </div><!-- /.span -->
                 </div>
 

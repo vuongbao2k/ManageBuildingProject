@@ -47,7 +47,9 @@ public class CustomerController {
             customerSearchRequest.setStaffId(staffId);
         }
         mav.addObject("customers", customerService.searchCustomer(customerSearchRequest));
-//        Page<CustomerSearchResponse> customerSearchResponsePage = customerService.searchCustomer(customerSearchRequest, PageRequest.of(customerSearchRequest.getPage()-1,customerSearchRequest.getMaxPageItems()));
+        Page<CustomerSearchResponse> customerSearchResponsePage = customerService.searchCustomer(customerSearchRequest, PageRequest.of(customerSearchRequest.getPage()-1,customerSearchRequest.getMaxPageItems()));
+        customerSearchRequest.setTotalItems(customerService.searchCustomer(customerSearchRequest).size());
+        customerSearchRequest.setListResult(customerSearchResponsePage.getContent());
         return mav;
     }
 

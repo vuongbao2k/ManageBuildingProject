@@ -9,6 +9,7 @@ import com.javaweb.entity.CustomerEntity;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.AssignmentCustomerDTO;
 import com.javaweb.model.dto.CustomerDTO;
+import com.javaweb.model.dto.UserDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.model.response.CustomerSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
@@ -17,6 +18,9 @@ import com.javaweb.repository.CustomerRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,6 +50,19 @@ public class CustomerService implements ICustomerService {
             responseList.add(customerSearchResponse);
         }
         return responseList;
+    }
+
+    @Override
+    public Page<CustomerSearchResponse> searchCustomer(CustomerSearchRequest customerSearchRequest, Pageable pageable) {
+        CustomerSearchBuilder customerSearchBuilder = customerSearchBuilderConverter.toCustomerSearchBuilder(customerSearchRequest);
+        Page<CustomerEntity> customers = customerRepository.searchCustomer(customerSearchBuilder, pageable);
+        List<CustomerEntity> customerEntities = customers.getContent();
+        List<CustomerSearchResponse> result = new ArrayList<>();
+        for (CustomerEntity customerEntity : customerEntities) {
+            CustomerSearchResponse customerSearchResponse = customerSearchResponseConverter.toCustomerSearchResponse(customerEntity);
+            result.add(customerSearchResponse);
+        }
+        return new PageImpl<CustomerSearchResponse>(result, pageable, result.size());
     }
 
     @Override
