@@ -39,7 +39,6 @@
                                     <form:input class="form-control" path="name"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Quận</label>
                                 <div class="col-xs-2">
@@ -49,70 +48,60 @@
                                     </form:select>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Phường</label>
                                 <div class="col-xs-9">
                                     <form:input class="form-control" path="ward"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Đường</label>
                                 <div class="col-xs-9">
                                     <form:input class="form-control" path="street"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Kết cấu</label>
                                 <div class="col-xs-9">
                                     <form:input class="form-control" path="structure"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Số tầng hầm</label>
                                 <div class="col-xs-9">
                                     <form:input class="form-control" path="numberofbasement"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Diện tích sàn</label>
                                 <div class="col-xs-9">
                                     <form:input class="form-control" path="floorarea"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Hướng</label>
                                 <div class="col-xs-9">
                                     <form:input class="form-control" path="direction"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Hạng</label>
                                 <div class="col-xs-9">
                                     <form:input class="form-control" path="level"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Diện tích thuê</label>
                                 <div class="col-xs-9">
                                     <form:input class="form-control" path="rentarea"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Giá thuê</label>
                                 <div class="col-xs-9">
                                     <form:input class="form-control" path="rentprice"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-xs-3">Mô tả giá</label>
                                 <div class="col-xs-9">
@@ -219,7 +208,7 @@
                             </div>
                             <form:hidden path="id" id="buildingId"/>
                         </form>
-                    </div>
+                        </div>
                     </form:form>
                 </div>
 

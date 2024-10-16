@@ -120,6 +120,7 @@
                                                     <label class="name">SĐT quản lý</label>
                                                     <form:input class="form-control" path="managerPhone"/>
                                                 </div>
+                                                <security:authorize access="hasRole('MANAGER')">
                                                 <div class="col-xs-2">
                                                     <label class="name">Nhân viên</label>
                                                     <form:select class="form-control" path="staffId">
@@ -127,6 +128,7 @@
                                                         <form:options items="${listStaff}"/>
                                                     </form:select>
                                                 </div>
+                                                </security:authorize>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -227,9 +229,11 @@
                                 <td>${item.brokerageFee}</td>
                                 <td>
                                     <div class="hidden-sm hidden-xs btn-group">
+                                        <security:authorize access="hasRole('MANAGER')">
                                         <button class="btn btn-xs btn-success" title="Giao toà nhà" onclick="assignmentBuilding(${item.id})">
                                             <i class="ace-icon glyphicon glyphicon-list"></i>
                                         </button>
+                                        </security:authorize>
 
                                         <a class="btn btn-xs btn-info" title="Sửa toà nhà" href="/admin/building-edit-${item.id}">
                                             <i class="ace-icon fa fa-pencil bigger-120"></i>

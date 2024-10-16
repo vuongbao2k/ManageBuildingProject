@@ -10,6 +10,7 @@ import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.repository.BuildingRepository;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.IUserService;
 import com.javaweb.service.impl.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,10 @@ public class BuildingController {
     @RequestMapping(value = "/admin/building-list", method = RequestMethod.GET)
     public ModelAndView buildingList(@ModelAttribute BuildingSearchRequest buildingSearchRequest, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/list");
+        if(SecurityUtils.getAuthorities().contains("ROLE_STAFF")){
+            Long staffId = SecurityUtils.getPrincipal().getId();
+            buildingSearchRequest.setStaffId(staffId);
+        }
         mav.addObject("modelSearch", buildingSearchRequest);
         List<BuildingSearchResponse> responseList = buildingService.findAll(buildingSearchRequest);
         mav.addObject("buildingList", responseList);
@@ -57,7 +62,8 @@ public class BuildingController {
     @RequestMapping(value = "/admin/building-edit-{id}", method = RequestMethod.GET)
     public ModelAndView buildingEdit(@PathVariable("id") Long id, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/edit");
-        BuildingEntity buildingEntity = buildingRepository.getOne(id);
+//        BuildingEntity buildingEntity = buildingRepository.getOne(id);
+        BuildingEntity buildingEntity = buildingRepository.findById(id).get();
         BuildingDTO buildingDTO = buildingDTOConverter.toBuildingDTO(buildingEntity);
         mav.addObject("buildingEdit", buildingDTO);
         mav.addObject("districts", districtCode.type());

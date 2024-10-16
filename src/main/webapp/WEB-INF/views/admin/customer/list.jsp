@@ -61,7 +61,8 @@
                                                     <form:input class="form-control" path="email"/>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div
+                                        <security:authorize access="hasRole('MANAGER')">
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="col-xs-4">
@@ -73,6 +74,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        </security:authorize>
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="col-xs-6">
@@ -140,9 +142,11 @@
                                         <display:column headerClass="col-actions" title="Thao tác">
 <%--                                            <c:if test="${tableList.roleCode != 'MANAGER'}">--%>
                                                 <div class="hidden-sm hidden-xs btn-group">
+                                                    <security:authorize access="hasRole('MANAGER')">
                                                     <button class="btn btn-xs btn-success" title="Giao khách hàng" onclick="assignmentCustomer(${tableList.id})">
                                                         <i class="ace-icon glyphicon glyphicon-list"></i>
                                                     </button>
+                                                    </security:authorize>
 
                                                     <a class="btn btn-xs btn-info" title="Sửa khách hàng" href="/admin/customer-edit-${tableList.id}">
                                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
